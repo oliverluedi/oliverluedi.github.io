@@ -1,0 +1,234 @@
+<!DOCTYPE html>
+<html>
+<head>
+	<title>Feierabend-Rechner JS- v1.0</title>
+	<!-- CSS only -->
+	<link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.5.0/css/bootstrap.min.css" integrity="sha384-9aIt2nRpC12Uk9gS9baDl411NQApFmC26EwAOH8WgZl5MYYxFfc+NcPb1dKGj7Sk" crossorigin="anonymous">
+	<meta http-equiv="content-type" content="text/html; charset=utf-8">
+	<style type="text/css">
+		.container{
+			height: 900px;
+		}
+		body{
+			font-size: 25px;
+			border-style: none solid none solid;
+			border-color: #f4a261;
+			border-width: 80px 80px 80px 80px;
+			background-color:  #004466
+		}
+		h2 {
+			color:white;
+		}
+		label {
+			color:white;
+		}
+		p {
+			color:#f4a261;;
+		}
+		button{
+
+				height: 65px;
+				width: 585px;
+				border-radius: 25px;
+				color:black;
+				background-color:#f4a261;
+		}
+		h6 {
+			margin-top: 5px;
+			margin-right: 50px;
+			text-align: right;
+			color:white;
+		}
+		h5{
+			color:white;
+		}
+		input{
+			text-align: center;
+			border-width: 2px;
+			background-color: white;
+			width: 80px;
+			border-radius: 3px;
+		}
+	</style>
+
+</head>
+<body>
+	<h6>John Tea Design</h6>
+	<div class="container">
+		
+		<h5 id  = "tag"></h5>
+		<p id = "zeit"></p>
+		<h2>Bitte gib deine Stempelungen an</h2>
+		<label for="morgen">Morgen:</label><br>
+		<input type="text" name="morgen" id="morgen">
+		<label for="mittag">Mittag:</label>
+		<input type="text" name="mittag" id="mittag"><br><p id = "morgenzeit"></p>
+		<label for="nachmittag">Nachmittag:</label><br>
+		<input type="text" name="nachmittag" id="nachmittag"><br>
+		<label for="abend">Abend:</label><br>
+		<input type="text" name="abend" id="abend"><p id = "abendzeit"></p><p id = "gesamtzeit"></p>
+		<button type="button" onclick="berechnen()"><strong>Berechnen</strong></button><br><br><br>
+		
+		
+		
+	</div>
+	
+</body>
+<script
+  src="https://code.jquery.com/jquery-3.5.1.js"
+  integrity="sha256-QWo7LDvxbWT2tbbQ97B53yJnYU3WhH/C8ycbRAkjPDc="
+  crossorigin="anonymous"></script>
+  
+<script type="text/javascript">
+	
+	var textfelder = document.querySelectorAll("input");
+
+	for (let i =0; i < textfelder.length; i++){
+    console.log(textfelder[i].value);
+	}
+
+	let morgenneu = document.getElementById("morgen");
+	morgenneu.onchange = function() {
+		var eingabe = document.getElementById("morgen").value;
+	if (eingabe.length == 1){
+		rueckgabe = (eingabe[0]+":00");
+		document.getElementById("morgen").value = rueckgabe;
+	}else if(eingabe.length == 2){
+		rueckgabe = (eingabe.slice(0,2)+":00");
+		document.getElementById("morgen").value = rueckgabe;
+	}else if (eingabe.length == 3){
+		rueckgabe = (eingabe[0]+":"+eingabe[1]+eingabe[2]);
+		document.getElementById("morgen").value = rueckgabe;
+	}else if( eingabe.length == 4){
+		rueckgabe = (eingabe.slice(0,2)+":"+eingabe.slice(2,4));
+		document.getElementById("morgen").value = rueckgabe;
+	}
+	};
+	
+	monat = ['Januar','Februar','März','April','Mai','Juni','Juli','August','September',    
+                'Oktober','November','Dezember']
+	
+	var minutenA = null;
+	var minuten = null;
+	var zeitAmMorgen = null;
+	var zeitAmAbend = null;
+	var zeitGesamt = null;
+	var gesamtminuten = null;
+	var morgenstunde = null;
+	var	morgenminute = null;
+	var mittagstunde = null;
+	var mittagminute = null;
+	var minutes = null;
+	var zeitenmorgen = null;
+	var zeitenmittag = null;
+	var zeitennachmittag = null;
+	var nachmittagminute = null;
+	var	nachmittagstunde = null;
+
+	var today = new Date(); // Zeit holen
+	var date = today.getFullYear()+'-'+(today.getMonth()+1)+'-'+today.getDate();
+	var time =  + ":" + today.getMinutes() ;
+	var dateTime = date+' '+time;
+
+		if (today.getMinutes() < 10){			// wenn die minuten weniger als 10 sind eine 0 einfügen 5 -> 05
+			minutes = "0" + today.getMinutes();
+		}else minutes = today.getMinutes();
+	
+	
+	document.getElementById("tag").innerHTML = "Heute ist der "+ today.getDate() +". "+ (monat[today.getMonth()]);
+	document.getElementById("zeit").innerHTML = "Es ist "+ today.getHours()+" Uhr " + minutes;	
+		
+		function berechnen(){
+			var morgen = document.getElementById("morgen").value; // wert aus den Feldern lesen
+			var mittag = document.getElementById("mittag").value;
+			var nachmittag = document.getElementById("nachmittag").value; 
+			var abend = document.getElementById("abend").value; 
+			
+			zeitenmorgen = morgen.split(":"); // Stunden und minuten trennen
+			morgenstunde = zeitenmorgen[0];
+			morgenminute = zeitenmorgen[1];
+			
+			zeitenmittag = mittag.split(":"); // Stunden und minuten trennen
+			mittagstunde = zeitenmittag[0];
+			mittagminute = zeitenmittag[1];
+			
+			zeitennachmittag = nachmittag.split(":"); // Stunden und minuten trennen
+			nachmittagstunde = zeitennachmittag[0];
+			nachmittagminute = zeitennachmittag[1];
+
+			zeitenabend = abend.split(":");
+			abendstunde = zeitenabend[0];
+			abendminute = zeitenabend[1];
+
+			if (morgenminute > mittagminute){  
+				mittagstunde = mittagstunde - 1;
+				minuten = 60 - parseInt(morgenminute) + parseInt(mittagminute);
+			}else{
+				minuten = mittagminute - morgenminute;
+			}
+			if ( minuten < 10){          //wenn die minuten weniger als 10 sind eine 0 einfügen 5 -> 05 
+				minuten = "0" + minuten;
+			}
+			zeitAmMorgen = (mittagstunde - morgenstunde) + ":"+ minuten;
+			document.getElementById("morgenzeit").innerHTML = "Am Morgen hast du " + zeitAmMorgen + " Stunden gearbeitet";
+			
+			if (nachmittagminute > abendminute){  
+				abendstunde = abendstunde - 1;
+				minutenA = 60 - parseInt(nachmittagminute) + parseInt(abendminute);
+			}else{
+				minutenA = abendminute - nachmittagminute;
+			}
+			if ( minutenA < 10){          //wenn die minuten weniger als 10 sind eine 0 einfügen 5 -> 05 
+				minutenA = "0" + minutenA;
+			}
+			zeitAmAbend = (abendstunde - nachmittagstunde) + ":" + minutenA;
+			document.getElementById("abendzeit").innerHTML ="Am Abend hast du " + zeitAmAbend + " Stunden gearbeitet";
+			
+			gesamtminuten = parseInt(minuten) + parseInt(minutenA); // wenn es mehr als 60 Minuten sind 
+			if ( gesamtminuten > 59){
+				gesamtminuten = gesamtminuten - 60;
+				zeitGesamt + 1;
+			}
+			if ( gesamtminuten < 10){          //wenn die minuten weniger als 10 sind eine 0 einfügen 5 -> 05 
+				gesamtminuten = "0" + gesamtminuten;
+			}
+			zeitGesamt = (mittagstunde - morgenstunde) + (abendstunde - nachmittagstunde);
+			document.getElementById("gesamtzeit").innerHTML = "zusammengezählt hast du " + zeitGesamt + ":" + gesamtminuten + " Stunden gearbeitet";
+			
+			
+			if (morgen.length == 0) // Testen ob ein wert in die Felder eingetragen wurde
+			{
+				console.log("es wurde kein wert für den morgen eingegeben");
+				document.getElementById("morgenzeit").innerHTML = "";
+				document.getElementById("gesamtzeit").innerHTML = "None";
+			}
+
+			if (mittag.length == 0)
+			{
+				console.log("es wurde kein wert für den mittag eingegeben");
+				document.getElementById("morgenzeit").innerHTML = "";
+				document.getElementById("gesamtzeit").innerHTML = "";
+				
+			}
+
+			if (nachmittag.length == 0)
+			{
+				console.log("es wurde kein wert für den nachmittag eingegeben");
+				document.getElementById("gesamtzeit").innerHTML = "";
+				document.getElementById("abendzeit").innerHTML = "";
+			}
+
+			if (abend.length == 0)
+			{
+				console.log("es wurde kein wert für den abend eingegeben");
+				document.getElementById("gesamtzeit").innerHTML ="";
+				document.getElementById("abendzeit").innerHTML = "";
+			}
+
+
+
+
+
+		}
+</script>
+</html>               
