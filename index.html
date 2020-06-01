@@ -1,19 +1,20 @@
-<!DOCTYPE html>
+﻿<!DOCTYPE html>
 <html>
 <head>
-	<title>Feierabend-Rechner JS- v1.0</title>
+	<title>Feierabend-Rechner JS- v1.1</title>
 	<!-- CSS only -->
 	<link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.5.0/css/bootstrap.min.css" integrity="sha384-9aIt2nRpC12Uk9gS9baDl411NQApFmC26EwAOH8WgZl5MYYxFfc+NcPb1dKGj7Sk" crossorigin="anonymous">
 	<meta http-equiv="content-type" content="text/html; charset=utf-8">
+	<meta name="viewport" content="width=device-width, initial-scale=1">
 	<style type="text/css">
 		.container{
-			height: 900px;
+			height: 1200px;
 		}
 		body{
 			font-size: 25px;
 			border-style: none solid none solid;
 			border-color: #f4a261;
-			border-width: 80px 80px 80px 80px;
+			border-width: 50px 50px 50px 50px;
 			background-color:  #004466
 		}
 		h2 {
@@ -28,7 +29,7 @@
 		button{
 
 				height: 65px;
-				width: 585px;
+				width: 185px;
 				border-radius: 25px;
 				color:black;
 				background-color:#f4a261;
@@ -42,72 +43,60 @@
 		h5{
 			color:white;
 		}
-		input{
-			text-align: center;
-			border-width: 2px;
-			background-color: white;
-			width: 80px;
-			border-radius: 3px;
+		input {
+			width : 70px;
 		}
+		#soll{
+			text-align: center;
+			background-color:  black;
+			color:#f4a261;
+		}
+		
 	</style>
-
 </head>
 <body>
+
 	<h6>John Tea Design</h6>
 	<div class="container">
-		
+		<center>
 		<h5 id  = "tag"></h5>
 		<p id = "zeit"></p>
 		<h2>Bitte gib deine Stempelungen an</h2>
-		<label for="morgen">Morgen:</label><br>
-		<input type="text" name="morgen" id="morgen">
-		<label for="mittag">Mittag:</label>
-		<input type="text" name="mittag" id="mittag"><br><p id = "morgenzeit"></p>
-		<label for="nachmittag">Nachmittag:</label><br>
-		<input type="text" name="nachmittag" id="nachmittag"><br>
-		<label for="abend">Abend:</label><br>
-		<input type="text" name="abend" id="abend"><p id = "abendzeit"></p><p id = "gesamtzeit"></p>
-		<button type="button" onclick="berechnen()"><strong>Berechnen</strong></button><br><br><br>
+		<div class="container">
+		<div class="container-fluid">
+			<div class="row">
+				<div class="col-lg-6">
+					<label for="morgen">Morgen:</label><br>
+					<input type="text" name="morgen" id="morgen" maxlength="5" size="5"><br>
+					<label for="mittag">Mittag:</label><br>
+					<input type="text" name="mittag" id="mittag" maxlength="5" size="5">
+					<br><p id = "morgenzeit"></p>
+				</div>
+				<div class="col-lg-6">
+					<label for="nachmittag">Nachmittag:</label><br>
+					<input type="text" name="nachmittag" id="nachmittag" maxlength="5" size="5"><br>
+					<label for="abend">Abend:</label><br>
+					<input type="text" name="abend" id="abend" maxlength="5" size="5"><p id = "abendzeit"></p><p id = 															"gesamtzeit"></p>
+				</div>
+			</div>
+		</div>
+		<button type="button" onclick="berechnen()"><strong>Berechnen</strong></button><br><br>
+		<label for="sollmorgen">Sollzeit Morgen:</label><br>
+		<input type="text" name="sollmorgen" id="soll" value="5:00" maxlength="5" size="5"><br>
+		<label for="sollmittag">Sollzeit Mittag:</label><br>
+		<input type="text" name="sollmittag" id="soll" value="3:00" maxlength="5" size="5"><br>
+		<br><p id = "morgenzeit"></p>
 		
 		
 		
 	</div>
 	
 </body>
-<script
-  src="https://code.jquery.com/jquery-3.5.1.js"
-  integrity="sha256-QWo7LDvxbWT2tbbQ97B53yJnYU3WhH/C8ycbRAkjPDc="
-  crossorigin="anonymous"></script>
-  
 <script type="text/javascript">
-	
-	var textfelder = document.querySelectorAll("input");
-
-	for (let i =0; i < textfelder.length; i++){
-    console.log(textfelder[i].value);
-	}
-
-	let morgenneu = document.getElementById("morgen");
-	morgenneu.onchange = function() {
-		var eingabe = document.getElementById("morgen").value;
-	if (eingabe.length == 1){
-		rueckgabe = (eingabe[0]+":00");
-		document.getElementById("morgen").value = rueckgabe;
-	}else if(eingabe.length == 2){
-		rueckgabe = (eingabe.slice(0,2)+":00");
-		document.getElementById("morgen").value = rueckgabe;
-	}else if (eingabe.length == 3){
-		rueckgabe = (eingabe[0]+":"+eingabe[1]+eingabe[2]);
-		document.getElementById("morgen").value = rueckgabe;
-	}else if( eingabe.length == 4){
-		rueckgabe = (eingabe.slice(0,2)+":"+eingabe.slice(2,4));
-		document.getElementById("morgen").value = rueckgabe;
-	}
-	};
 	
 	monat = ['Januar','Februar','März','April','Mai','Juni','Juli','August','September',    
                 'Oktober','November','Dezember']
-	
+	var korrektur = null;
 	var minutenA = null;
 	var minuten = null;
 	var zeitAmMorgen = null;
@@ -187,12 +176,13 @@
 			gesamtminuten = parseInt(minuten) + parseInt(minutenA); // wenn es mehr als 60 Minuten sind 
 			if ( gesamtminuten > 59){
 				gesamtminuten = gesamtminuten - 60;
-				zeitGesamt + 1;
+				korrektur = 1;
 			}
 			if ( gesamtminuten < 10){          //wenn die minuten weniger als 10 sind eine 0 einfügen 5 -> 05 
 				gesamtminuten = "0" + gesamtminuten;
+				korrektur = 0;
 			}
-			zeitGesamt = (mittagstunde - morgenstunde) + (abendstunde - nachmittagstunde);
+			zeitGesamt = (mittagstunde - morgenstunde) + (abendstunde - nachmittagstunde) + korrektur;
 			document.getElementById("gesamtzeit").innerHTML = "zusammengezählt hast du " + zeitGesamt + ":" + gesamtminuten + " Stunden gearbeitet";
 			
 			
