@@ -14,7 +14,7 @@
 			font-size: 22px;
 			border-style: solid solid solid solid;
 			border-color: #f4a261;
-			border-width: 90px 50px 50px 50px;
+			border-width: 90px 15px 25px 15px;
 			background-color:  #004466
 		}
 		h2 {
@@ -48,16 +48,14 @@
 			color:white;
 		}
 		input {
+			font-weight: bold;
 			font-size: 28px;
 			text-align: center;
 			border-radius: 5px;
 			width : 150px;
+			background-color: #a8caff
 		}
-		#soll{
-			text-align: center;
-			background-color: #004466;
-			color:#f4a261;
-		}
+
 		
 	</style>
 </head>
@@ -66,15 +64,15 @@
   <div class="collapse" id="navbarToggleExternalContent">
     <div class="bg-dark p-4">
     <center>	
-      <h4 class="text-white">Zeit berechnen</h4>
+      <h2 class="text-white">Zeit berechnen</h2>
      	<button onclick="reset()"><strong>Reset</strong></button><hr color="white">
      	<button type="button" onclick="rechnenMit8()"><strong>Rechnen 8.12</strong></button><hr color="white">
      	<button type="button" onclick="rechnenMit10()"><strong>Rechnen 10.3</strong></button><hr color="white">
     </center>
 		<label for="sollmorgen">Sollzeit Morgen:</label><br>
-		<input type="text" name="sollmorgen" id="soll" value="5:00" maxlength="5" size="5"><br>
+		<input type="text" name="sollmorgen" id="sollmorgen" value="5:00" maxlength="5" size="5"><br>
 		<label for="sollmittag">Sollzeit Mittag:</label><br>
-		<input type="text" name="sollmittag" id="soll" value="0:30" maxlength="5" size="5"><br>
+		<input type="text" name="sollmittag" id="sollmittag" value="0:30" maxlength="5" size="5"><br>
     </div>
   </div>
   <nav class="navbar fixed-top navbar-dark bg-dark">
@@ -89,6 +87,7 @@
 	<div class="container">
 		<center>
 		<h2>Stempelungen</h2>
+		<br>
 		<div class="container">
 		<div class="container-fluid">
 			<div class="row">
@@ -146,19 +145,33 @@
 				}	
 			
 	document.getElementById("morgen").onchange = function() {
-		berechnen(0);
+		berechnen(394);
 	};
 
 		document.getElementById("mittag").onchange = function() {
-		berechnen(0);
+		berechnen(394);
 	};
 
 		document.getElementById("nachmittag").onchange = function() {
-		berechnen(0);
+		berechnen(394);
 	};
 
 		document.getElementById("abend").onchange = function() {
-		berechnen(0);
+		berechnen(394);
+	};
+		document.getElementById("sollmorgen").onchange = function() {
+		document.getElementById("mittag").value="";
+		document.getElementById("nachmittag").value=""; 
+		document.getElementById("abend").value="";
+		berechnen(394);
+
+	};
+		document.getElementById("sollmittag").onchange = function() {
+		berechnen(394);
+		document.getElementById("mittag").value="";
+		document.getElementById("nachmittag").value=""; 
+		document.getElementById("abend").value="";
+		berechnen(394);
 	};
 		
 		function rechnenMit8(){
@@ -167,7 +180,12 @@
 			let morgenstunde = zeitenmorgen[0];
 			let morgenminute = zeitenmorgen[1];
 			let morgenzeit = Number(morgenstunde)*60  + Number(morgenminute);
-			abendzeit = Number(morgenzeit + 492 + 30); // buutons berechnen
+			var sollmittagspause = document.getElementById("sollmittag").value;
+			sollmittagspause = sollmittagspause.split(":");
+			let sollmittagstunde = sollmittagspause[0];
+			let sollmitagsminute = sollmittagspause[1];
+			sollmittagspause = Number(sollmittagstunde)*60  + Number(sollmitagsminute);
+			abendzeit = Number(morgenzeit + 492 + Number(sollmittagspause)); // buutons berechnen
 			abendzeit = umrechnen(abendzeit);
 			document.getElementById("abend").value = abendzeit;
 			document.getElementById("gesamt").innerHTML = "8.12 Stunden";
@@ -180,7 +198,12 @@
 			let morgenstunde = zeitenmorgen[0];
 			let morgenminute = zeitenmorgen[1];
 			let morgenzeit = Number(morgenstunde)*60  + Number(morgenminute);
-			abendzeit = Number(morgenzeit + 630 + 30); // buutons berechnen
+			var sollmittagspause = document.getElementById("sollmittag").value;
+			sollmittagspause = sollmittagspause.split(":");
+			let sollmittagstunde = sollmittagspause[0];
+			let sollmitagsminute = sollmittagspause[1];
+			sollmittagspause = Number(sollmittagstunde)*60  + Number(sollmitagsminute);
+			abendzeit = Number(morgenzeit + 630 + Number(sollmittagspause)); // buutons berechnen
 			abendzeit = umrechnen(abendzeit);
 			document.getElementById("abend").value = abendzeit;
 			document.getElementById("gesamt").innerHTML = "10.3 Stunden";
@@ -193,8 +216,20 @@
 			var morgen = document.getElementById("morgen").value; // wert aus den Feldern lesen
 			var mittag = document.getElementById("mittag").value;
 			var nachmittag = document.getElementById("nachmittag").value; 
-			var abend = document.getElementById("abend").value; 
-			console.log(zeit)
+			var abend = document.getElementById("abend").value;
+			var sollmorgen = document.getElementById("sollmorgen").value;
+			var sollmittagspause = document.getElementById("sollmittag").value;
+			
+			sollmorgen = sollmorgen.split(":"); // Stunden und minuten trennen
+			let sollmorgenstunde = sollmorgen[0];
+			let sollmorgenminute = sollmorgen[1];
+			sollmorgen = Number(sollmorgenstunde)*60  + Number(sollmorgenminute);
+			console.log(sollmorgen),
+			sollmittagspause = sollmittagspause.split(":");
+			let sollmittagstunde = sollmittagspause[0];
+			let sollmitagsminute = sollmittagspause[1];
+			sollmittagspause = Number(sollmittagstunde)*60  + Number(sollmitagsminute);
+			console.log(sollmittagspause);
 
 			if(morgen && (!mittag) && (!nachmittag) && (!abend)){
 				//mittag = document.getElementById("mittag").value = ;
@@ -202,15 +237,17 @@
 				let morgenstunde = zeitenmorgen[0];
 				let morgenminute = zeitenmorgen[1];
 				let morgenzeit = Number(morgenstunde)*60  + Number(morgenminute);
-				let mittagszeit = Number(morgenzeit + 300);
-				let nachmittagzeit = Number(morgenzeit + 330);
-				let abendzeit = Number(morgenzeit + 394 + 30)+(Number(zeit));
+				let mittagszeit = Number(morgenzeit + sollmorgen);// morgensoll anstatt 300
+				let nachmittagzeit = Number(morgenzeit + sollmorgen+sollmittagspause);// morgensoll+mittagssoll
+				let abendzeit = Number(morgenzeit) + Number(sollmittagspause)+Number(zeit);// morgensoll + mittagssoll + (gesamtsoll-(morgensoll+mittagssoll))
+				console.log(zeit);
  				mittagszeit = umrechnen(mittagszeit); 
  				nachmittagzeit = umrechnen(nachmittagzeit);
  				abendzeit = umrechnen(abendzeit);
 				document.getElementById("mittag").value = mittagszeit;
 				document.getElementById("nachmittag").value = nachmittagzeit;
-				document.getElementById("abend").value = abendzeit;
+				document.getElementById("abend").value = abendzeit;	
+
 				berechnen();
 			}
 
