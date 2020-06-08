@@ -10,6 +10,9 @@
 		.container{
 			height: 600px;
 		}
+		html, body {
+  						overflow: hidden; 
+		}
 		body{
 			font-size: 22px;
 			border-style: solid solid solid solid;
@@ -113,13 +116,10 @@
 </body>
 
 	<!-- JS, Popper.js, and jQuery -->
-<script src="https://code.jquery.com/jquery-3.5.1.slim.min.js" integrity="sha384-DfXdz2htPH0lsSSs5nCTpuj/zy4C+OGpamoFVy38MVBnE+IbbVYUew+OrCXaRkfj" crossorigin="anonymous"></script>
-<script src="https://cdn.jsdelivr.net/npm/popper.js@1.16.0/dist/umd/popper.min.js" integrity="sha384-Q6E9RHvbIyZFJoft+2mJbHaEWldlvI9IOYy5n3zV9zzTtmI3UksdQRVvoxMfooAo" crossorigin="anonymous"></script>
-<script src="https://stackpath.bootstrapcdn.com/bootstrap/4.5.0/js/bootstrap.min.js" integrity="sha384-OgVRvuATP1z7JjHLkuOU7Xw704+h835Lr+6QL9UvYjZE3Ipu6Tp75j7Bh/kR0JKI" crossorigin="anonymous"></script>
-<script type="text/javascript">
-	
-	
-    
+	<script src="https://code.jquery.com/jquery-3.5.1.slim.min.js" integrity="sha384-DfXdz2htPH0lsSSs5nCTpuj/zy4C+OGpamoFVy38MVBnE+IbbVYUew+OrCXaRkfj" crossorigin="anonymous"></script>
+	<script src="https://cdn.jsdelivr.net/npm/popper.js@1.16.0/dist/umd/popper.min.js" integrity="sha384-Q6E9RHvbIyZFJoft+2mJbHaEWldlvI9IOYy5n3zV9zzTtmI3UksdQRVvoxMfooAo" crossorigin="anonymous"></script>
+	<script src="https://stackpath.bootstrapcdn.com/bootstrap/4.5.0/js/bootstrap.min.js" integrity="sha384-OgVRvuATP1z7JjHLkuOU7Xw704+h835Lr+6QL9UvYjZE3Ipu6Tp75j7Bh/kR0JKI" crossorigin="anonymous"></script>
+	<script type="text/javascript">
 	
 	function reset(){
 		$('#navbarToggleExternalContent').collapse('hide'); // navbar schliessen
@@ -132,43 +132,56 @@
 	}
 	
 	function umrechnen(zeit){
-					stunden = Math.floor(zeit / 60);
-					minuten = zeit % 60;
-					if (minuten < 10){
-						minuten = "0" + minuten;
-					} 
-					resultat = stunden + ":" + minuten;
-					return resultat
-				}	
-			
+		stunden = Math.floor(zeit / 60);
+		minuten = zeit % 60;
+		if (minuten < 10){
+			minuten = "0" + minuten;
+		} 
+		resultat = stunden + ":" + minuten;
+		return resultat
+	}	
+
+	function konvertieren(zeit){
+		zeit = zeit.split(":");
+		let stunde = zeit[0];
+		console.log(stunde);
+		let minuten = zeit[1];
+		console.log(minuten);
+		let neueZeit = Number(stunde)*60+Number(minuten);
+		return neueZeit;
+	}
+
+	//$("input").click(berechnen(394));
 	document.getElementById("morgen").onchange = function() {
-		berechnen(394);
+		berechnen();
 	};
 
 		document.getElementById("mittag").onchange = function() {
-		berechnen(394);
+		berechnen();
 	};
 
 		document.getElementById("nachmittag").onchange = function() {
-		berechnen(394);
+		berechnen();
 	};
 
 		document.getElementById("abend").onchange = function() {
-		berechnen(394);
+		berechnen();
 	};
-		document.getElementById("sollmorgen").onchange = function() {
-		document.getElementById("mittag").value="";
-		document.getElementById("nachmittag").value=""; 
-		document.getElementById("abend").value="";
-		berechnen(394);
+
+	document.getElementById("sollmorgen").onchange = function() {
+	document.getElementById("mittag").value="";
+	document.getElementById("nachmittag").value=""; 
+	document.getElementById("abend").value="";
+	berechnen();
 
 	};
-		document.getElementById("sollmittag").onchange = function() {
-		berechnen(394);
-		document.getElementById("mittag").value="";
-		document.getElementById("nachmittag").value=""; 
-		document.getElementById("abend").value="";
-		berechnen(394);
+		
+	document.getElementById("sollmittag").onchange = function() {
+	berechnen();
+	document.getElementById("mittag").value="";
+	document.getElementById("nachmittag").value=""; 
+	document.getElementById("abend").value="";
+	berechnen();
 	};
 		
 		
@@ -176,22 +189,18 @@
 		var morgen = document.getElementById("morgen").value; // wert aus den Feldern lesen
 		var mittag = document.getElementById("mittag").value;
 		var nachmittag = document.getElementById("nachmittag").value; 
-		let zeitenmorgen = morgen.split(":"); // Stunden und minuten trennen
-		let morgenstunde = zeitenmorgen[0];
-		let morgenminute = zeitenmorgen[1];
-		let morgenzeit = Number(morgenstunde)*60  + Number(morgenminute);
-		let zeitenmittag = mittag.split(":"); // Stunden und minuten trennen
-		let mittagstunde = zeitenmittag[0];
-		let mittagminute = zeitenmittag[1];
-		let mittagszeit = Number(mittagstunde*60) +Number(mittagminute);
-		let zeitennachmittag = nachmittag.split(":"); // Stunden und minuten trennen
-		let nachmittagstunde = zeitennachmittag[0];
-		let nachmittagminute = zeitennachmittag[1];
-		let nachmittagszeit = Number(nachmittagstunde*60)+ Number(nachmittagminute);
+
+		let morgenzeit = konvertieren(morgen);
+
+		let mittagszeit = konvertieren(mittag);
+
+		let nachmittagszeit = konvertieren(nachmittag);
+
 		let mittagspausenlaenge =  nachmittagszeit - mittagszeit;
 
 		abendzeit = Number(morgenzeit + 492 + Number(mittagspausenlaenge)); // buutons berechnen
 		abendzeit = umrechnen(abendzeit);
+		
 		document.getElementById("abend").value = abendzeit;
 		document.getElementById("gesamt").innerHTML = "8.12 Stunden";
 		$('#navbarToggleExternalContent').collapse('hide');
@@ -201,30 +210,25 @@
 		var morgen = document.getElementById("morgen").value; // wert aus den Feldern lesen
 		var mittag = document.getElementById("mittag").value;
 		var nachmittag = document.getElementById("nachmittag").value; 
-		let zeitenmorgen = morgen.split(":"); // Stunden und minuten trennen
-		let morgenstunde = zeitenmorgen[0];
-		let morgenminute = zeitenmorgen[1];
-		let morgenzeit = Number(morgenstunde)*60  + Number(morgenminute);
-		
-		let zeitenmittag = mittag.split(":"); // Stunden und minuten trennen
-		let mittagstunde = zeitenmittag[0];
-		let mittagminute = zeitenmittag[1];
-		let mittagszeit = Number(mittagstunde*60) +Number(mittagminute);
-		let zeitennachmittag = nachmittag.split(":"); // Stunden und minuten trennen
-		let nachmittagstunde = zeitennachmittag[0];
-		let nachmittagminute = zeitennachmittag[1];
-		let nachmittagszeit = Number(nachmittagstunde*60)+ Number(nachmittagminute);
+
+		let morgenzeit = konvertieren(morgen);
+
+		let mittagszeit = konvertieren(mittag);
+
+		let nachmittagszeit = konvertieren(nachmittag);
+
 		let mittagspausenlaenge =  nachmittagszeit - mittagszeit;
 
 		abendzeit = Number(morgenzeit + 630 + Number(mittagspausenlaenge)); // buutons berechnen
 		abendzeit = umrechnen(abendzeit);
+
 		document.getElementById("abend").value = abendzeit;
 		document.getElementById("gesamt").innerHTML = "10.3 Stunden";
 		$('#navbarToggleExternalContent').collapse('hide');
 	}
 
 
-	function berechnen(zeit){
+	function berechnen(){
 			
 		var morgen = document.getElementById("morgen").value; // wert aus den Feldern lesen
 		var mittag = document.getElementById("mittag").value;
@@ -232,31 +236,23 @@
 		var abend = document.getElementById("abend").value;
 		var sollmorgen = document.getElementById("sollmorgen").value;
 		var sollmittagspause = document.getElementById("sollmittag").value;
-			
-		sollmorgen = sollmorgen.split(":"); // Stunden und minuten trennen
-		let sollmorgenstunde = sollmorgen[0];
-		let sollmorgenminute = sollmorgen[1];
-		sollmorgen = Number(sollmorgenstunde)*60  + Number(sollmorgenminute);
-		console.log(sollmorgen),
-		sollmittagspause = sollmittagspause.split(":");
-		let sollmittagstunde = sollmittagspause[0];
-		let sollmitagsminute = sollmittagspause[1];
-		sollmittagspause = Number(sollmittagstunde)*60  + Number(sollmitagsminute);
-		console.log(sollmittagspause);
 
-		if(morgen && (!mittag) && (!nachmittag) && (!abend)){
-			//mittag = document.getElementById("mittag").value = ;
-			let zeitenmorgen = morgen.split(":"); // Stunden und minuten trennen
-			let morgenstunde = zeitenmorgen[0];
-			let morgenminute = zeitenmorgen[1];
-			let morgenzeit = Number(morgenstunde)*60  + Number(morgenminute);
-			let mittagszeit = Number(morgenzeit + sollmorgen);// morgensoll anstatt 300
-			let nachmittagzeit = Number(morgenzeit + sollmorgen+sollmittagspause);// morgensoll+mittagssoll
-			let abendzeit = Number(morgenzeit) + Number(sollmittagspause)+Number(zeit);// morgensoll + mittagssoll + (gesamtsoll-(morgensoll+mittagssoll))
-			console.log(zeit);
+		sollmorgen = konvertieren(sollmorgen); // die Eingabe im morgenfeld in minuten umrechnen
+
+		sollmittagspause = konvertieren(sollmittagspause); // die Eingabe im sollmittagspausenfeld in minuten umrechnen
+
+
+		if(morgen && (!mittag) && (!nachmittag) && (!abend)){		// wenn das erste Feld beschrieben wird
+
+			morgenzeit = konvertieren(morgen);
+			let mittagszeit = Number(morgenzeit) + Number(sollmorgen);  // morgensoll anstatt 300
+			let nachmittagzeit = Number(morgenzeit + sollmorgen + sollmittagspause);  // morgensoll+mittagssoll
+			let abendzeit = Number(morgenzeit) + Number(sollmittagspause)+Number(394);  // morgensoll + mittagssoll + (gesamtsoll-(morgensoll+mittagssoll))
+			//console.log(zeit);
  			mittagszeit = umrechnen(mittagszeit); 
  			nachmittagzeit = umrechnen(nachmittagzeit);
  			abendzeit = umrechnen(abendzeit);
+			
 			document.getElementById("mittag").value = mittagszeit;
 			document.getElementById("nachmittag").value = nachmittagzeit;
 			document.getElementById("abend").value = abendzeit;	
@@ -266,36 +262,25 @@
 
 
 		if (morgen && mittag && nachmittag && abend){ 
-			let zeitenmorgen = morgen.split(":"); // Stunden und minuten trennen
-			let morgenstunde = zeitenmorgen[0];
-			let morgenminute = zeitenmorgen[1];
-			let morgenzeit = Number(morgenstunde)*60  + Number(morgenminute);
-			
-			let zeitenmittag = mittag.split(":"); // Stunden und minuten trennen
-			let mittagstunde = zeitenmittag[0];
-			let mittagminute = zeitenmittag[1];
-			let mittagszeit = Number(mittagstunde*60) +Number(mittagminute);
+
+			let morgenzeit = konvertieren(morgen);
+
+			let mittagszeit = konvertieren(mittag);
 
 			let zeitAmMorgen = mittagszeit - morgenzeit;
-			
-			let zeitennachmittag = nachmittag.split(":"); // Stunden und minuten trennen
-			let nachmittagstunde = zeitennachmittag[0];
-			let nachmittagminute = zeitennachmittag[1];
-			let nachmittagszeit = Number(nachmittagstunde*60)+ Number(nachmittagminute);
 
-			let zeitenabend = abend.split(":");
-			let abendstunde = zeitenabend[0];
-			let abendminute = zeitenabend[1];
-			let abendzeit = Number(abendstunde*60) + Number(abendminute);
+			let nachmittagszeit = konvertieren(nachmittag);
+
+			let abendzeit = konvertieren(abend);
 
 			let zeitAmAbend = abendzeit - nachmittagszeit;
 			let gesamtezeit = zeitAmMorgen + zeitAmAbend;
 			
-			console.log();
+			//console.log();
 				
 			gesamtezeit = umrechnen(gesamtezeit);
 
-			console.log(umrechnen(gesamtezeit))
+			//console.log(umrechnen(gesamtezeit))
 			document.getElementById("gesamt").innerHTML = gesamtezeit + " Stunden"; 		
 		}
 
