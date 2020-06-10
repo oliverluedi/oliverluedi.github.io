@@ -69,8 +69,8 @@
     			<center>	
       				<h2 class="text-white">Zeit berechnen</h2>
      					<button onclick="reset()"><strong>Reset</strong></button><hr color="white">
-     					<button type="button" onclick="rechnenMit8()"><strong>Rechnen 8.12</strong></button><hr color="white">
-     					<button type="button" onclick="rechnenMit10()"><strong>Rechnen 10.3</strong></button><hr color="white">
+     					<button type="button" onclick="rechnenMit8()"><strong>Rechnen 8:12</strong></button><hr color="white">
+     					<button type="button" onclick="rechnenMit10()"><strong>Rechnen 10:30</strong></button><hr color="white">
     			</center>
 					<label for="sollmorgen">Sollzeit Morgen:</label><br>
 					<input type="text" name="sollmorgen" id="sollmorgen" value="5:00" maxlength="5" size="5"><br>
@@ -217,7 +217,9 @@
 		abendzeit = umrechnen(abendzeit);
 		
 		document.getElementById("abend").value = abendzeit;
-		document.getElementById("gesamt").innerHTML = "8.12 Stunden";
+		document.getElementById("gesamt").innerHTML = "8:12 Stunden";
+		localStorage.setItem('abend', abendzeit);
+		localStorage.setItem('gesamtezeit', "8:12");
 		$('#navbarToggleExternalContent').collapse('hide');
 	}
 
@@ -238,7 +240,9 @@
 		abendzeit = umrechnen(abendzeit);
 
 		document.getElementById("abend").value = abendzeit;
-		document.getElementById("gesamt").innerHTML = "10.3 Stunden";
+		document.getElementById("gesamt").innerHTML = "10:30 Stunden";
+		localStorage.setItem('abend', abendzeit);
+		localStorage.setItem('gesamtezeit', "10:30");
 		$('#navbarToggleExternalContent').collapse('hide');
 	}
 
