@@ -121,6 +121,21 @@
 	<script src="https://stackpath.bootstrapcdn.com/bootstrap/4.5.0/js/bootstrap.min.js" integrity="sha384-OgVRvuATP1z7JjHLkuOU7Xw704+h835Lr+6QL9UvYjZE3Ipu6Tp75j7Bh/kR0JKI" crossorigin="anonymous"></script>
 	<script type="text/javascript">
 	
+	let savedMorgen = localStorage.getItem('morgen');
+	let savedMittag = localStorage.getItem('mittag');
+	let savedNachmittag = localStorage.getItem('nachmittag');
+	let savedAbend = localStorage.getItem('abend');
+	let savedgesamtezeit = localStorage.getItem('gesamtezeit');
+	console.log(savedMorgen);
+	console.log(savedMittag);
+	console.log(savedNachmittag);
+	console.log(savedAbend);
+	document.getElementById("morgen").value = savedMorgen;
+	document.getElementById("mittag").value= savedMittag;
+	document.getElementById("nachmittag").value=savedNachmittag; 
+	document.getElementById("abend").value=savedAbend;
+	document.getElementById("gesamt").innerHTML = savedgesamtezeit + " Stunden";
+
 	function reset(){
 		$('#navbarToggleExternalContent').collapse('hide'); // navbar schliessen
 		document.getElementById("morgen").value = ""; // wert aus den Feldern lesen
@@ -229,6 +244,7 @@
 
 
 	function berechnen(){
+
 			
 		var morgen = document.getElementById("morgen").value; // wert aus den Feldern lesen
 		var mittag = document.getElementById("mittag").value;
@@ -236,6 +252,12 @@
 		var abend = document.getElementById("abend").value;
 		var sollmorgen = document.getElementById("sollmorgen").value;
 		var sollmittagspause = document.getElementById("sollmittag").value;
+		
+		localStorage.setItem('morgen', morgen );
+		localStorage.setItem('mittag', mittag);
+		localStorage.setItem('nachmittag', nachmittag);
+		localStorage.setItem('abend', abend);
+		
 
 		sollmorgen = konvertieren(sollmorgen); // die Eingabe im morgenfeld in minuten umrechnen
 
@@ -279,7 +301,7 @@
 			//console.log();
 				
 			gesamtezeit = umrechnen(gesamtezeit);
-
+			localStorage.setItem('gesamtezeit', gesamtezeit);
 			//console.log(umrechnen(gesamtezeit))
 			document.getElementById("gesamt").innerHTML = gesamtezeit + " Stunden"; 		
 		}
