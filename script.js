@@ -9,6 +9,9 @@ let result = document.querySelector(".complete");
 let button = document.querySelector("#button");
 let zurueckButton = document.querySelector("#zurueck");
 let komplett = document.querySelector("#komplett");
+let sechs = document.querySelector("#sechs");
+let achte = document.querySelector("#acht");
+let zehn = document.querySelector("#zehn");
 
 let alle_inpute = [morgen, mittag, nachmittag, abend];
 
@@ -72,6 +75,25 @@ function calculateTime() {
       calculatedMinute = `0${calculatedMinute}`;
     }
     komplett.textContent = `du hast ${calculatedHour}:${calculatedMinute} stunden gearbeitet`;
+  }
+
+  if (timeInMinutes.length === 3) {
+    let morningTime = timeInMinutes[1] - timeInMinutes[0];
+    let timeReached = 6 * 60 + 30 - morningTime;
+    let timeToEight = 8 * 60 + 12 - morningTime;
+    let timeToTen = 10 * 60 + 30 - morningTime;
+    let [time6Hours, time6Minutes] = convertMinutestoDaytime(
+      parseInt(timeInMinutes[2]) + timeReached
+    );
+    let [time8Hours, time8Minutes] = convertMinutestoDaytime(
+      parseInt(timeInMinutes[2]) + timeToEight
+    );
+    let [time10Hours, time10Minutes] = convertMinutestoDaytime(
+      parseInt(timeInMinutes[2]) + timeToTen
+    );
+    sechs.textContent = `du hast ${time6Hours}:${time6Minutes} deine Zeit erreicht`;
+    acht.textContent = `du hast ${time8Hours}:${time8Minutes} 8:12 erreicht`;
+    zehn.textContent = `du hast ${time10Hours}:${time10Minutes} 10:30 erreicht`;
   }
 }
 
