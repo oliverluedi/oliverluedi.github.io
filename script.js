@@ -44,21 +44,33 @@ function timeToMinutes(time) {
 function calculateTime() {
   let timeInMinutes = [];
   alle_inpute.forEach((time) => {
-    timeInMinutes.push(timeToMinutes(time.value));
+    // wenn die zeit nicht undefined ist
+    if (time.value) {
+      timeInMinutes.push(timeToMinutes(time.value));
+    }
   });
+  console.log(timeInMinutes.length);
 
+  // wenn alle 4 werte angegeben wurden
   if (timeInMinutes.length === 4) {
     let morningTime = timeInMinutes[1] - timeInMinutes[0];
     let eveningTime = timeInMinutes[3] - timeInMinutes[2];
     let totalTime = morningTime + eveningTime;
-    console.log(totalTime);
+    // console.log(totalTime);
     let [calculatedHour, calculatedMinute] = convertMinutestoDaytime(totalTime);
     if (calculatedMinute.toString().length === 1) {
       calculatedMinute = `0${calculatedMinute}`;
     }
-    console.log(
-      `du hast ${calculatedHour}:${calculatedMinute} stunden gearbeitet`
-    );
+    komplett.textContent = `du hast ${calculatedHour}:${calculatedMinute} stunden gearbeitet`;
+  }
+
+  // wenn nur 2 werte eingegeben wurden
+  if (timeInMinutes.length === 2) {
+    let totalTime = timeInMinutes[1] - timeInMinutes[0];
+    let [calculatedHour, calculatedMinute] = convertMinutestoDaytime(totalTime);
+    if (calculatedMinute.toString().length === 1) {
+      calculatedMinute = `0${calculatedMinute}`;
+    }
     komplett.textContent = `du hast ${calculatedHour}:${calculatedMinute} stunden gearbeitet`;
   }
 }
@@ -66,7 +78,7 @@ function calculateTime() {
 function convertMinutestoDaytime(total) {
   let hours = Math.floor(total / 60);
   let minutes = total - hours * 60;
-  console.log(hours, minutes);
+  // console.log(hours, minutes);
   return [hours, minutes];
 }
 
