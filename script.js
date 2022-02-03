@@ -68,16 +68,14 @@ function calculateTime() {
   }
 
   // wenn nur 2 werte eingegeben wurden
-  if (timeInMinutes.length === 2) {
+  else if (timeInMinutes.length === 2) {
     let totalTime = timeInMinutes[1] - timeInMinutes[0];
     let [calculatedHour, calculatedMinute] = convertMinutestoDaytime(totalTime);
     if (calculatedMinute.toString().length === 1) {
       calculatedMinute = `0${calculatedMinute}`;
     }
     komplett.textContent = `du hast ${calculatedHour}:${calculatedMinute} stunden gearbeitet`;
-  }
-
-  if (timeInMinutes.length === 3) {
+  } else if (timeInMinutes.length === 3) {
     let morningTime = timeInMinutes[1] - timeInMinutes[0];
     let timeReached = 6 * 60 + 30 - morningTime;
     let timeToEight = 8 * 60 + 12 - morningTime;
