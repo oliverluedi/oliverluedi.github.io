@@ -1,315 +1,50 @@
 <!DOCTYPE html>
-<html>
+<html lang="en">
 <head>
-	<title>Feierabend-Rechner JS- v1.1</title>
-	<!-- CSS only -->
-	<link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.5.0/css/bootstrap.min.css" integrity="sha384-9aIt2nRpC12Uk9gS9baDl411NQApFmC26EwAOH8WgZl5MYYxFfc+NcPb1dKGj7Sk" crossorigin="anonymous">
-	<meta http-equiv="content-type" content="text/html; charset=utf-8">
-	<meta name="viewport" content="width=device-width, initial-scale=1">
-	<style type="text/css">
-		.container{
-			height: 600px;
-		}
-		html, body {
-  		
-		}
-		body{
-			font-size: 22px;
-			border-style: solid solid solid solid;
-			border-color: #f4a261;
-			border-width: 90px 15px 25px 15px;
-			background-color:  #004466
-		}
-		h2 {
-			margin-top: 20px;
-			color:white;
-		}
-		label {
-			color:white;
-		}
-		p {
-			font-weight: bold;
-			font-size: 30px;
-			color:#f4a261;;
-		}
-		button{	
-
-				margin-top: 2px;
-				height: 55px;			
-				width: 200px;
-				border-radius: 5px;
-				color:black;
-				background-color:#f4a261;
-		}
-		h6 {
-			margin-top: 5px;
-			margin-right: 50px;
-			text-align: right;
-			color:white;
-		}
-		h5{
-			color:white;
-		}
-		input {
-			font-weight: bold;
-			font-size: 28px;
-			text-align: center;
-			border-radius: 5px;
-			width : 150px;
-			background-color: #a8caff
-		}
-
-		
-	</style>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Custom Countdown</title>
+    <link rel="icon" type="image/png" href="favicon.png">
+    <link rel="stylesheet" href="style.css">
 </head>
 <body>
-	<div class="pos-f-t">
-  		<div class="collapse" id="navbarToggleExternalContent">
-    		<div class="bg-dark p-4">
-    			<center>	
-      				<h2 class="text-white">Zeit berechnen</h2>
-     					<button onclick="reset()"><strong>Reset</strong></button><hr color="white">
-     					<button type="button" onclick="rechnenMit8()"><strong>Rechnen 8:12</strong></button><hr color="white">
-     					<button type="button" onclick="rechnenMit10()"><strong>Rechnen 10:30</strong></button><hr color="white">
-    			</center>
-					<label for="sollmorgen">Sollzeit Morgen:</label><br>
-					<input type="text" name="sollmorgen" id="sollmorgen" value="5:00" maxlength="5" size="5"><br>
-					<label for="sollmittag">Sollzeit Mittag:</label><br>
-					<input type="text" name="sollmittag" id="sollmittag" value="0:30" maxlength="5" size="5"><br>
-   			 </div>
- 		 </div>
-  		<nav class="navbar fixed-top navbar-dark bg-dark">
-    		<button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarToggleExternalContent" aria-controls="navbarToggleExternalContent" 	aria-expanded="false" aria-label="Toggle navigation">
-      		<span class="navbar-toggler-icon"></span>
-    		</button>
-  		</nav>
-	</div>
+    <!-- Video Background -->
+    <video src="time.mp4" class="video-background" loop muted autoplay></video>
+    <div class="video-overlay"></div>
+    <!-- Container -->
+    <div class="container">
+        <!-- input -->
+        <div class="input-container" id="input-container">
+            <h1>Bitte geben Sie ihre Zeiten an</h1>
+            <form class="form" id="countdownForm" autocomplete="off">
+                <!-- <div class="morgenzeiten"> -->
+                    <label for="title">Morgen</label>
+                    <input type="text"  id="morgen" placeholder="00:00">
+                    <label for="mittag" >Mittag</label>
+                    <input type="text"  id="mittag"placeholder="00:00">
+                <!-- </div> -->
+                <!-- <div class="abendzeiten"> -->
+                    <label for="nachmittag">Nachmittag</label>
+                    <input type="text"  id="nachmittag" placeholder="00:00">
+                    <label for="abend" >Abend</label>
+                    <input type="text"  id="abend" placeholder="00:00">
+                <!-- </div>              -->
+                    <button type="button" id="button">Berechnen</button>               
+            </form>
+        </div>
+        <div class="complete" id="complete" hidden>
+            <h1 class="complete-title">****Beer o' clock!****</h1>
+            <h2 id="complete-info">berechnete Zeiten</h2>
+            <hr>
+            <p>die Zeit erreicht hast du</p>
+            <p>    8:12 erreicht hast du</p>
+            <p>   10:30 erreicht hast du</p>
+            <button type="button" id="zurueck">zurück</button>
+        </div>
+        <!-- complete -->
 
-
-	
-	<div class="container">
-		<center>
-			<h2>Stempelungen</h2>
-			<br>
-			<div class="container">
-				<div class="container-fluid">
-					<div class="row">
-						<div class="col-lg-6">
-							<label for="morgen">Morgen:</label><br>
-							<input type="text" name="morgen" id="morgen" maxlength="5" size="5" placeholder="00:00"><br>
-							<label for="mittag">Mittag:</label><br>
-							<input type="text" name="mittag" id="mittag" maxlength="5" size="5" placeholder="00:00">
-							<br><p id = "morgenzeit"></p>
-						</div>
-					<div class="col-lg-6">
-						<label for="nachmittag">Nachmittag:</label><br>
-						<input type="text" name="nachmittag" id="nachmittag" maxlength="5" size="5" placeholder="00:00"><br>
-						<label for="abend">Abend:</label><br>
-						<input type="text" name="abend" id="abend" maxlength="5" size="5" placeholder="00:00">
-					</div>
-				</div>
-			</div>
-			<br>
-			<p id="gesamt" color="#f4a261"></p>
-	</div>
-	
+    </div>
+    <!-- Script -->
+    <script src="script.js"></script>
 </body>
-
-	<!-- JS, Popper.js, and jQuery -->
-	<script src="https://code.jquery.com/jquery-3.5.1.slim.min.js" integrity="sha384-DfXdz2htPH0lsSSs5nCTpuj/zy4C+OGpamoFVy38MVBnE+IbbVYUew+OrCXaRkfj" crossorigin="anonymous"></script>
-	<script src="https://cdn.jsdelivr.net/npm/popper.js@1.16.0/dist/umd/popper.min.js" integrity="sha384-Q6E9RHvbIyZFJoft+2mJbHaEWldlvI9IOYy5n3zV9zzTtmI3UksdQRVvoxMfooAo" crossorigin="anonymous"></script>
-	<script src="https://stackpath.bootstrapcdn.com/bootstrap/4.5.0/js/bootstrap.min.js" integrity="sha384-OgVRvuATP1z7JjHLkuOU7Xw704+h835Lr+6QL9UvYjZE3Ipu6Tp75j7Bh/kR0JKI" crossorigin="anonymous"></script>
-	<script type="text/javascript">
-	
-	let savedMorgen = localStorage.getItem('morgen');
-	let savedMittag = localStorage.getItem('mittag');
-	let savedNachmittag = localStorage.getItem('nachmittag');
-	let savedAbend = localStorage.getItem('abend');
-	let savedgesamtezeit = localStorage.getItem('gesamtezeit');
-	console.log(savedMorgen);
-	console.log(savedMittag);
-	console.log(savedNachmittag);
-	console.log(savedAbend);
-	document.getElementById("morgen").value = savedMorgen;
-	document.getElementById("mittag").value= savedMittag;
-	document.getElementById("nachmittag").value=savedNachmittag; 
-	document.getElementById("abend").value=savedAbend;
-	document.getElementById("gesamt").innerHTML = savedgesamtezeit + " Stunden";
-
-	function reset(){
-		$('#navbarToggleExternalContent').collapse('hide'); // navbar schliessen
-		document.getElementById("morgen").value = ""; // wert aus den Feldern lesen
-		document.getElementById("mittag").value = "";
-		document.getElementById("nachmittag").value = ""; 
-		document.getElementById("abend").value = ""; 
-		document.getElementById("gesamt").innerHTML = "";
-		
-	}
-	
-	function umrechnen(zeit){
-		stunden = Math.floor(zeit / 60);
-		minuten = zeit % 60;
-		if (minuten < 10){
-			minuten = "0" + minuten;
-		} 
-		resultat = stunden + ":" + minuten;
-		return resultat
-	}	
-
-	function konvertieren(zeit){
-		zeit = zeit.split(":");
-		let stunde = zeit[0];
-		console.log(stunde);
-		let minuten = zeit[1];
-		console.log(minuten);
-		let neueZeit = Number(stunde)*60+Number(minuten);
-		return neueZeit;
-	}
-
-	//$("input").click(berechnen(394));
-	document.getElementById("morgen").onchange = function() {
-		berechnen();
-	};
-
-		document.getElementById("mittag").onchange = function() {
-		berechnen();
-	};
-
-		document.getElementById("nachmittag").onchange = function() {
-		berechnen();
-	};
-
-		document.getElementById("abend").onchange = function() {
-		berechnen();
-	};
-
-	document.getElementById("sollmorgen").onchange = function() {
-	document.getElementById("mittag").value="";
-	document.getElementById("nachmittag").value=""; 
-	document.getElementById("abend").value="";
-	berechnen();
-
-	};
-		
-	document.getElementById("sollmittag").onchange = function() {
-	berechnen();
-	document.getElementById("mittag").value="";
-	document.getElementById("nachmittag").value=""; 
-	document.getElementById("abend").value="";
-	berechnen();
-	};
-		
-		
-	function rechnenMit8(){
-		var morgen = document.getElementById("morgen").value; // wert aus den Feldern lesen
-		var mittag = document.getElementById("mittag").value;
-		var nachmittag = document.getElementById("nachmittag").value; 
-
-		let morgenzeit = konvertieren(morgen);
-
-		let mittagszeit = konvertieren(mittag);
-
-		let nachmittagszeit = konvertieren(nachmittag);
-
-		let mittagspausenlaenge =  nachmittagszeit - mittagszeit;
-
-		abendzeit = Number(morgenzeit + 492 + Number(mittagspausenlaenge)); // buutons berechnen
-		abendzeit = umrechnen(abendzeit);
-		
-		document.getElementById("abend").value = abendzeit;
-		document.getElementById("gesamt").innerHTML = "8:12 Stunden";
-		localStorage.setItem('abend', abendzeit);
-		localStorage.setItem('gesamtezeit', "8:12");
-		$('#navbarToggleExternalContent').collapse('hide');
-	}
-
-	function rechnenMit10(){
-		var morgen = document.getElementById("morgen").value; // wert aus den Feldern lesen
-		var mittag = document.getElementById("mittag").value;
-		var nachmittag = document.getElementById("nachmittag").value; 
-
-		let morgenzeit = konvertieren(morgen);
-
-		let mittagszeit = konvertieren(mittag);
-
-		let nachmittagszeit = konvertieren(nachmittag);
-
-		let mittagspausenlaenge =  nachmittagszeit - mittagszeit;
-
-		abendzeit = Number(morgenzeit + 630 + Number(mittagspausenlaenge)); // buutons berechnen
-		abendzeit = umrechnen(abendzeit);
-
-		document.getElementById("abend").value = abendzeit;
-		document.getElementById("gesamt").innerHTML = "10:30 Stunden";
-		localStorage.setItem('abend', abendzeit);
-		localStorage.setItem('gesamtezeit', "10:30");
-		$('#navbarToggleExternalContent').collapse('hide');
-	}
-
-
-	function berechnen(){
-
-			
-		var morgen = document.getElementById("morgen").value; // wert aus den Feldern lesen
-		var mittag = document.getElementById("mittag").value;
-		var nachmittag = document.getElementById("nachmittag").value; 
-		var abend = document.getElementById("abend").value;
-		var sollmorgen = document.getElementById("sollmorgen").value;
-		var sollmittagspause = document.getElementById("sollmittag").value;
-		
-		localStorage.setItem('morgen', morgen );
-		localStorage.setItem('mittag', mittag);
-		localStorage.setItem('nachmittag', nachmittag);
-		localStorage.setItem('abend', abend);
-		
-
-		sollmorgen = konvertieren(sollmorgen); // die Eingabe im morgenfeld in minuten umrechnen
-
-		sollmittagspause = konvertieren(sollmittagspause); // die Eingabe im sollmittagspausenfeld in minuten umrechnen
-
-
-		if(morgen && (!mittag) && (!nachmittag) && (!abend)){		// wenn das erste Feld beschrieben wird
-
-			morgenzeit = konvertieren(morgen);
-			let mittagszeit = Number(morgenzeit) + Number(sollmorgen);  // morgensoll anstatt 300
-			let nachmittagzeit = Number(morgenzeit + sollmorgen + sollmittagspause);  // morgensoll+mittagssoll
-			let abendzeit = Number(morgenzeit) + Number(sollmittagspause)+Number(394);  // morgensoll + mittagssoll + (gesamtsoll-(morgensoll+mittagssoll))
-			//console.log(zeit);
- 			mittagszeit = umrechnen(mittagszeit); 
- 			nachmittagzeit = umrechnen(nachmittagzeit);
- 			abendzeit = umrechnen(abendzeit);
-			
-			document.getElementById("mittag").value = mittagszeit;
-			document.getElementById("nachmittag").value = nachmittagzeit;
-			document.getElementById("abend").value = abendzeit;	
-
-			berechnen();
-		}
-
-
-		if (morgen && mittag && nachmittag && abend){ 
-
-			let morgenzeit = konvertieren(morgen);
-
-			let mittagszeit = konvertieren(mittag);
-
-			let zeitAmMorgen = mittagszeit - morgenzeit;
-
-			let nachmittagszeit = konvertieren(nachmittag);
-
-			let abendzeit = konvertieren(abend);
-
-			let zeitAmAbend = abendzeit - nachmittagszeit;
-			let gesamtezeit = zeitAmMorgen + zeitAmAbend;
-			
-			//console.log();
-				
-			gesamtezeit = umrechnen(gesamtezeit);
-			localStorage.setItem('gesamtezeit', gesamtezeit);
-			//console.log(umrechnen(gesamtezeit))
-			document.getElementById("gesamt").innerHTML = gesamtezeit + " Stunden"; 		
-		}
-
-	}
-</script>
-</html>               
+</html>
