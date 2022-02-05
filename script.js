@@ -89,7 +89,7 @@ function calculateTime() {
     let [time10Hours, time10Minutes] = convertMinutestoDaytime(
       parseInt(timeInMinutes[2]) + timeToTen
     );
-    sechs.textContent = `du hast ${time6Hours}:${time6Minutes} deine Zeit erreicht`;
+    sechs.textContent = `du hast ${time6Hours}:${time6Minutes} 6:30 erreicht`;
     acht.textContent = `du hast ${time8Hours}:${time8Minutes} 8:12 erreicht`;
     zehn.textContent = `du hast ${time10Hours}:${time10Minutes} 10:30 erreicht`;
   }
